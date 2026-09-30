@@ -7,30 +7,6 @@ externas nuevas, todo con métricas y matriz de confusión en vivo.
 
 ---
 
-## 📐 Arquitectura
-
-Es una arquitectura de **transfer learning en dos etapas** (no una red
-entrenada desde cero):
-
-```
-Imagen (224x224x3)
-        │
-        ▼
-MobileNetV2 (preentrenada en ImageNet, CONGELADA — no se reentrena)
-        │
-        ▼
-Vector de 1280 características
-        │
-        ▼
-StandardScaler (normalización)
-        │
-        ▼
-Regresión Logística (esto sí se entrena con tus imágenes)
-        │
-        ▼
-Barco / No barco
-```
-
 **1. Extractor de características — MobileNetV2**
 Red neuronal convolucional de Google, preentrenada sobre ImageNet (1.4M
 de imágenes, 1000 clases). Se usa con `include_top=False` (sin su capa
@@ -55,7 +31,7 @@ necesita muy pocos datos para funcionar razonablemente bien.
 
 ### Sobre "épocas" y "learning rate"
 
-La app ahora tiene **dos modos de entrenamiento**, seleccionables con un
+La app tiene **dos modos de entrenamiento**, seleccionables con un
 radio button en la pestaña "Entrenar modelo":
 
 1. **Regresión Logística (rápido)** — el que se explicaba antes: no tiene
