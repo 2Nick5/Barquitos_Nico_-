@@ -32,15 +32,6 @@ Se abre solo en tu navegador (`http://localhost:8501`). Tiene 3 pestañas:
    en vivo** a medida que se procesa cada imagen. Al final puedes
    descargar los resultados en CSV.
 
-> Nota: el botón de "Seleccionar carpeta" abre un diálogo nativo del
-> sistema operativo (usa `tkinter`), así que funciona corriendo la app en
-> tu propia computadora. Si por algún motivo no se abre, hay un campo de
-> texto al lado donde puedes escribir la ruta de la carpeta directamente.
-
-Todo lo que sigue abajo (los scripts `1_...py` a `5_...py`) es la versión
-por consola equivalente, útil si prefieres no usar la interfaz o si
-quieres automatizar el proceso desde la línea de comandos.
-
 ---
 
 ## 1. Instalación
@@ -70,13 +61,6 @@ barco_ia/
 python 1_etiquetar_imagenes.py
 ```
 
-Se abre una ventana mostrando cada imagen. Con el teclado:
-
-- `y` → SÍ hay barco
-- `n` → NO hay barco
-- `s` → saltar (la revisas después)
-- `q` → guardar y salir
-
 Genera `labels.csv` con dos columnas: `imagen,label` (1 = barco, 0 = no barco).
 Puedes cerrar el script a la mitad y volver a correrlo; retoma donde ibas.
 
@@ -95,7 +79,7 @@ python 2_entrenar_modelo.py
 - Muestra y guarda la **matriz de confusión** (`matriz_confusion.png`).
 - Guarda el modelo entrenado en `modelo_barcos.joblib`.
 
-### Paso 3 — Predecir tus 40 imágenes nuevas
+### Paso 3 
 
 ```bash
 python 3_predecir_imagenes_nuevas.py
@@ -116,7 +100,7 @@ es la verdad de cada imagen. Ese eres tú:
 python 4_etiquetar_ground_truth_profesor.py
 ```
 
-- Pon las 40 imágenes del profesor en `images/predict/`.
+- Se pone las imágenes del profesor en `images/predict/`.
 - Este script es igual al del Paso 1, pero guarda tu etiquetado en un
   archivo distinto: `ground_truth_profesor.csv`.
 - **Importante**: usa el mismo criterio que usaste en el Paso 1 — revisa
@@ -130,7 +114,7 @@ python 4_etiquetar_ground_truth_profesor.py
 python 5_evaluar_resultados_profesor.py
 ```
 
-- Carga el modelo ya entrenado y predice las 40 imágenes del profesor.
+- Carga el modelo ya entrenado y predice las imágenes del profesor.
 - Compara cada predicción contra `ground_truth_profesor.csv`.
 - Imprime accuracy, precision, recall, F1 sobre estos datos "reales".
 - Genera `matriz_confusion_profesor.png` — esta es la matriz que le
@@ -139,21 +123,3 @@ python 5_evaluar_resultados_profesor.py
 - Genera `comparacion_profesor.csv` con el detalle imagen por imagen
   (real vs. predicho vs. si acertó o no), y en la terminal te lista
   específicamente en cuáles se equivocó el modelo.
-
-## Notas importantes
-
-- **80 imágenes es poco para entrenar una CNN desde cero**, por eso este
-  proyecto usa transfer learning (características ya aprendidas de
-  ImageNet + un clasificador simple encima). Esto funciona razonablemente
-  bien incluso con pocos datos.
-- Si el balance de clases está muy desigual (por ejemplo 70 con barco y
-  10 sin barco), los resultados de la matriz de confusión pueden ser
-  engañosos. Intenta que tus 80 imágenes tengan una proporción razonable
-  de ambas clases.
-- Si quieres mejorar el modelo más adelante, puedes:
-  - Etiquetar más imágenes.
-  - Probar otro clasificador (`SVC` en vez de `LogisticRegression`, ya
-    está importado en `2_entrenar_modelo.py`, solo hay que intercambiarlo
-    en el `Pipeline`).
-  - Aplicar aumento de datos (rotar, voltear las imágenes de entrenamiento)
-    para tener más variedad.
